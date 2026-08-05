@@ -7,14 +7,17 @@ e-reader formats. Single Python package (`kindlecomicconverter/`), no monorepo, 
 
 ## Environment
 
-Conda `base` is auto-activated on this machine and there is no venv in the repo. Create and
-activate one before installing anything, or the deps land in conda base:
+Conda `base` is auto-activated on this machine, so always go through the repo venv at `./venv` —
+otherwise deps land in conda base. It currently holds the **CLI-only** dependency set (no PySide6),
+which is enough for `kcc-c2e.py` / `kcc-c2p.py` but not for the GUI:
 
 ```bash
-python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-python kcc.py            # GUI; kcc-c2e.py / kcc-c2p.py are the CLIs
+./venv/bin/python kcc-c2e.py [options] <input>    # CLI, works today
+pip install -r requirements.txt                   # adds PySide6, needed for `python kcc.py`
 ```
+
+`batch_convert.sh` runs `kcc-c2e` over a whole folder, one ebook per file; it picks up `./venv`
+automatically. See `./batch_convert.sh --help`.
 
 Runtime deps that are **not** pip packages and are resolved from `PATH`:
 `kindlegen` (MOBI/AZW3 output — not installed here, so MOBI conversions will fail locally),
